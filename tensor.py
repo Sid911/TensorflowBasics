@@ -30,7 +30,7 @@ fashion_mnist = keras.datasets.fashion_mnist
 train_images = train_images / 255.0
 test_images = test_images / 255.0
 
-# Creating model and checkpoint
+# Creating model and checkpoint in case of training failure
 model = createModel()
 
 checkpoint_path = "training/cp.ckpt"
