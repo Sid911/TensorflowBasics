@@ -2,6 +2,8 @@
   <dictionary name="sidde">
     <words>
       <w>conv</w>
+      <w>dataset</w>
+      <w>keras</w>
     </words>
   </dictionary>
 </component>
