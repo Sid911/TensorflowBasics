@@ -74,15 +74,28 @@ def test_step(images, labels):
 
 EPOCHS = 5
 
-for epoch in range(EPOCHS):
-    # Reset the metrics at the start of the next epoch
-    train_loss.reset_states()
-    train_accuracy.reset_states()
-    test_loss.reset_states()
-    test_accuracy.reset_states()
+# Try loading weights for the model
+loaded = False
+try:
+    weights = model.load_weights("mode2.h5")
+    model.set_weights(weights)
+    loaded = True
+    print("Model loaded , hurray! 🎉🥳")
+except (ImportError, ValueError):
+    print("Failed Loading weights! Starting training")
 
-    for images, labels in train_ds:
-        train_step(images, labels)
+for epoch in range(EPOCHS):
+    # Reset the metrics at the start of the next epoch if not loaded
+    if not loaded:
+        train_loss.reset_states()
+        train_accuracy.reset_states()
+        test_loss.reset_states()
+        test_accuracy.reset_states()
+
+        for images, labels in train_ds:
+            train_step(images, labels)
+    else:
+        pass
 
     for test_images, test_labels in test_ds:
         test_step(test_images, test_labels)
@@ -94,3 +107,8 @@ for epoch in range(EPOCHS):
                           test_loss.result(),
                           test_accuracy.result() * 100)
           )
+inp = input("would you like to save the model? : ")
+if inp == "yes" or "Yes":
+    model.save_weights("mode2.h5", overwrite=True, save_format="h5")
+else:
+    pass
