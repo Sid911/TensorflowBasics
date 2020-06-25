@@ -1,6 +1,7 @@
 import tensorflow as tf
 from tensorflow import keras
 import os
+import datetime
 # Helper libraries
 import numpy as np
 import matplotlib.pyplot as plt
@@ -37,6 +38,10 @@ checkpoint_path = "training/cp.ckpt"
 checkpoint_dir = os.path.dirname(checkpoint_path)
 cp_callback = keras.callbacks.ModelCheckpoint(checkpoint_path, save_weights_only=True, verbose=1)
 
+# TensorBoard
+log_dir = "logs\\fit\\" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")+".log"
+tensorBoard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
+
 try:
     model.load_weights(checkpoint_path)
     print("Model Loaded ☺")
@@ -47,7 +52,7 @@ except (ImportError, ValueError):
         train_images, train_labels,
         epochs=15,
         validation_data=(test_images, test_labels),
-        callbacks=[cp_callback]
+        callbacks=[cp_callback, tensorBoard_callback]
     )
 
 test_loss, test_acc = model.evaluate(test_images, test_labels, verbose=3)
