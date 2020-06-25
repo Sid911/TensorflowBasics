@@ -16,3 +16,7 @@ tensorboard --logdir logs/fit
 ```
 
 ### [Tensor2.py](tensor2.py)
+
+This file uses subclassing system of keras in order to create a simple model on MNIST dataset. It also includes a model weights saving system for now as we can't really use `model.save()` in subclassing method.
+
+The [mode2.h5](mode2.h5) is the saved numpy array for models. The loading system doesn't seem to be working properly atm ☹.
